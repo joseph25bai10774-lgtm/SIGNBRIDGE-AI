@@ -1,0 +1,164 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Sora", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Atkinson Hyperlegible", ui-sans-serif, system-ui, sans-serif;
+
+  --color-abyss: #06121f;
+  --color-deep: #0a1c30;
+  --color-panel: #0c2136;
+  --color-card: #0d2439;
+  --color-cardline: #1d4a74;
+  --color-cardline-bright: #2f6ea8;
+  --color-inktitle: #6db9ef;
+  --color-inkcard: #8fd0f8;
+  --color-inkbody: #d8ecfb;
+  --color-inkdim: #8fb4d4;
+  --color-pulse: #4cc3ff;
+  --color-good: #3ddc97;
+  --color-warn: #ffb454;
+  --color-bad: #ff6b6b;
+
+  --color-tilehi: #a3a9b1;
+  --color-tilelo: #666c75;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-abyss);
+  color: var(--color-inkbody);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: #4cc3ff;
+  color: #06121f;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #081627;
+}
+::-webkit-scrollbar-thumb {
+  background: #1d4a74;
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #2f6ea8;
+}
+
+/* ambient layered background */
+.ambient {
+  background:
+    radial-gradient(1100px 520px at 50% -8%, rgba(38, 99, 168, 0.28), transparent 62%),
+    radial-gradient(900px 600px at 88% 12%, rgba(20, 74, 128, 0.18), transparent 60%),
+    radial-gradient(700px 700px at 8% 70%, rgba(15, 60, 105, 0.16), transparent 60%),
+    linear-gradient(180deg, #0a1c30 0%, #06121f 100%);
+}
+
+.dotgrid {
+  background-image: radial-gradient(rgba(120, 180, 235, 0.10) 1px, transparent 1px);
+  background-size: 26px 26px;
+}
+
+/* photo tile used in gesture chart, matches reference grey studio backdrop */
+.tile-studio {
+  background:
+    radial-gradient(120% 90% at 50% 18%, rgba(255, 255, 255, 0.22), transparent 55%),
+    linear-gradient(165deg, #a6acb4 0%, #8b919a 42%, #61666f 100%);
+}
+
+/* scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+.reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+@keyframes scan {
+  0% { top: -8%; }
+  100% { top: 108%; }
+}
+.scanline {
+  animation: scan 2.6s linear infinite;
+}
+
+@keyframes ringpulse {
+  0% { box-shadow: 0 0 0 0 rgba(76, 195, 255, 0.45); }
+  100% { box-shadow: 0 0 0 18px rgba(76, 195, 255, 0); }
+}
+.ring-pulse {
+  animation: ringpulse 1.4s ease-out infinite;
+}
+
+@keyframes floaty {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-9px); }
+}
+.floaty { animation: floaty 5s ease-in-out infinite; }
+
+@keyframes wavehand {
+  0%, 100% { transform: rotate(-7deg); }
+  50% { transform: rotate(9deg); }
+}
+.wave-hand { animation: wavehand 1.1s ease-in-out infinite; transform-origin: 50% 92%; }
+
+@keyframes blinkdot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.25; }
+}
+.blink-dot { animation: blinkdot 1s ease-in-out infinite; }
+
+@keyframes meterfill {
+  from { width: 0%; }
+}
+.meter-fill { animation: meterfill 0.5s ease-out; }
+
+@keyframes toastin {
+  from { opacity: 0; transform: translateY(14px) scale(0.96); }
+  to { opacity: 1; transform: none; }
+}
+.toast-in { animation: toastin 0.35s cubic-bezier(0.22, 1, 0.36, 1); }
+
+/* 3D view transforms for the four camera angles */
+.view-front { transform: perspective(420px) rotateY(0deg); }
+.view-side { transform: perspective(420px) rotateY(56deg) scale(0.96); }
+.view-back { transform: perspective(420px) rotateY(178deg) scale(0.98); filter: brightness(0.9); }
+.view-angled { transform: perspective(420px) rotateY(32deg) rotateX(9deg) scale(0.97); }
+
+.card-hover {
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.35s, box-shadow 0.35s;
+}
+.card-hover:hover {
+  transform: translateY(-5px);
+  border-color: var(--color-cardline-bright);
+  box-shadow: 0 18px 40px -18px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(76, 195, 255, 0.25);
+}
+
+details.deepline > summary { list-style: none; cursor: pointer; }
+details.deepline > summary::-webkit-details-marker { display: none; }
+details.deepline[open] .chev { transform: rotate(180deg); }
+.chev { transition: transform 0.3s ease; }
+
+/* code lab */
+.codelab code[class*="language-"],
+.codelab pre[class*="language-"] {
+  background: transparent !important;
+  font-family: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+  text-shadow: none;
+}
+.codelab ::selection {
+  background: rgba(76, 195, 255, 0.3);
+}
+.codelab::-webkit-scrollbar { height: 8px; }
